@@ -28,5 +28,6 @@ watch(active, (nv) => {
 <style scoped>
 .top {
   text-align: center;
+  font-size: 39px;
 }
 </style>
