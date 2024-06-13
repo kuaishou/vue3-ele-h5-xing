@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import { featchTest } from '@/api/test'
+
+featchTest()
 // import TabsView from './views/tabs/TabsView.vue'
 </script>
 
