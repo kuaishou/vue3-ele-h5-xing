@@ -38,7 +38,7 @@ const onClear = (e?: string | number) => {
         <div>搜索</div>
       </template>
     </van-search> -->
-    <OpSearch
+    <op-search
       v-model="saerchValue"
       shape="round"
       background="linear-gradient(to right, rgb(53, 200, 250), rgb(31, 175, 243))"
@@ -50,7 +50,7 @@ const onClear = (e?: string | number) => {
       <template #right-icon>
         <div>搜索</div>
       </template>
-    </OpSearch>
+    </op-search>
     <div class="search-recommend">
       <div v-for="v in recomments" :key="v.value" class="tag">{{ v.label }}</div>
     </div>
