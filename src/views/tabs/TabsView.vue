@@ -15,9 +15,7 @@ watch(active, (nv) => {
 </script>
 
 <template>
-  <RouterView>
-    <div class="top">{{ active }}</div>
-  </RouterView>
+  <RouterView />
   <Tabbar v-model="active">
     <TabbarItem name="home" icon="home-o">首页</TabbarItem>
     <TabbarItem name="oder" icon="search">订单</TabbarItem>
