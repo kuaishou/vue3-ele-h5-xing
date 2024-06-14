@@ -1,20 +1,35 @@
 <script setup lang="ts" name="TheTop">
-import { ISearchRecomment } from '@/types'
+import type { ISearchRecomment } from '@/types'
+import OpSearch from '@/components/OpSearch.vue'
+import { ref } from 'vue'
 interface Iprops {
   recomments: ISearchRecomment[]
 }
 defineProps<Iprops>()
+const saerchValue = ref('dddddd')
+const onSearch = (e: string | number) => {
+  // eslint-disable-next-line no-console
+  console.log('onSearch', e)
+}
+const onCancel = (e: string | number) => {
+  // eslint-disable-next-line no-console
+  console.log('onCancel', e)
+}
+const onClear = (e: string | number) => {
+  // eslint-disable-next-line no-console
+  console.log('onClear', e)
+}
 </script>
 
 <template>
   <div class="home-top">
     <div class="top">
       <img class="location-icon" src="@/assets/imgs/index_page/location.png" alt="" />
-      <div class="location">幸福小区（北一区东南门）</div>
+      <div class="location">幸福小区(北一区东南门)</div>
       <img class="shopcart-icon" src="@/assets/imgs/index_page/shopcart.png" alt="" />
       <img class="comments-icon" src="@/assets/imgs/index_page/comments.png" alt="" />
     </div>
-    <van-search
+    <!-- <van-search
       shape="round"
       background="linear-gradient(to right, rgb(53, 200, 250), rgb(31, 175, 243))"
       placeholder="喜茶 35减2 "
@@ -22,7 +37,21 @@ defineProps<Iprops>()
       <template #right-icon>
         <div>搜索</div>
       </template>
-    </van-search>
+    </van-search> -->
+    <OpSearch
+      v-model="saerchValue"
+      shape="round"
+      show-action
+      background="linear-gradient(to right, rgb(53, 200, 250), rgb(31, 175, 243))"
+      placeholder="喜茶 35减2 "
+      @search="onSearch"
+      @cancel="onCancel"
+      @clear="onClear"
+    >
+      <!-- <template #right-icon>
+        <div>搜索</div>
+      </template> -->
+    </OpSearch>
     <div class="search-recommend">
       <div v-for="v in recomments" :key="v.value" class="tag">{{ v.label }}</div>
     </div>
@@ -40,8 +69,8 @@ defineProps<Iprops>()
     font-size: 15px;
     font-weight: bold;
     .location-icon {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
     }
     .location {
       flex: 1;

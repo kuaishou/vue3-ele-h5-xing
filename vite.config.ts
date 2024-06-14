@@ -14,7 +14,7 @@ export default defineConfig({
     AutoImport({
       //vant按需引入
       resolvers: [VantResolver()]
-    }) /*  */,
+    }),
     Components({
       //vant按需引入
       resolvers: [VantResolver()]
