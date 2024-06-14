@@ -6,16 +6,16 @@ interface Iprops {
   recomments: ISearchRecomment[]
 }
 defineProps<Iprops>()
-const saerchValue = ref('dddddd')
-const onSearch = (e: string | number) => {
+const saerchValue = ref('热销活动')
+const onSearch = (e?: string | number) => {
   // eslint-disable-next-line no-console
   console.log('onSearch', e)
 }
-const onCancel = (e: string | number) => {
+const onCancel = (e?: string | number) => {
   // eslint-disable-next-line no-console
   console.log('onCancel', e)
 }
-const onClear = (e: string | number) => {
+const onClear = (e?: string | number) => {
   // eslint-disable-next-line no-console
   console.log('onClear', e)
 }
@@ -41,16 +41,15 @@ const onClear = (e: string | number) => {
     <OpSearch
       v-model="saerchValue"
       shape="round"
-      show-action
       background="linear-gradient(to right, rgb(53, 200, 250), rgb(31, 175, 243))"
       placeholder="喜茶 35减2 "
       @search="onSearch"
       @cancel="onCancel"
       @clear="onClear"
     >
-      <!-- <template #right-icon>
+      <template #right-icon>
         <div>搜索</div>
-      </template> -->
+      </template>
     </OpSearch>
     <div class="search-recommend">
       <div v-for="v in recomments" :key="v.value" class="tag">{{ v.label }}</div>
