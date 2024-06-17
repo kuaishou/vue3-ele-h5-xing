@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import TheTop from './components/TheTop.vue'
 import TheTransformer from './components/TheTransformer.vue'
 import ScrollBar from './components/ScrollBar.vue'
+import CountDown from './components/CountDown.vue'
 import SearchView from '@/views/search/SearchView.vue'
 import OpLoadingView from '@/components/OpLoadingView.vue'
 import { useToggle } from '@/use/useToggle'
@@ -35,15 +36,19 @@ const { data, pending } = useAsync(fetchHomePageData, {
     </Transition>
     <TheTop :recomments="recomments" @searchClick="toggleSearchView"></TheTop>
     <OpLoadingView :loading="pending" type="skeleton">
-      <!-- <div class="home-page__banner">
+      <div class="home-page__banner">
         <img v-for="v in data.banner" :key="v.imgUrl" :src="v.imgUrl" />
       </div>
       <TheTransformer :data="data.transformer" />
-      <ScrollBar :data="data.scrollBarInfoList" /> -->
+      <ScrollBar :data="data.scrollBarInfoList" />
+      <div class="home-page__activity">
+        <CountDown :data="data.countdown"></CountDown>
+      </div>
+
       <!-- <template #template>
         <div>loading....</div>
       </template> -->
-      <div>{{ data }}</div>
+      <!-- <div>{{ data }}</div> -->
     </OpLoadingView>
     <!-- {{ pending }} -->
   </div>
