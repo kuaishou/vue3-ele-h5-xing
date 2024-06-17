@@ -8,3 +8,6 @@ export const cancelRAF =
   function (id: number) {
     clearTimeout(id)
   }
+export const doubleRaf = (fn: () => void) => {
+  rAF(() => rAF(fn))
+}

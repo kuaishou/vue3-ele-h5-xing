@@ -20,7 +20,7 @@ export interface IHomeInfo {
   transformer: ITransformer[]
   scrollBarInfoList: IScrollBarInfo[]
   countdown: Icountdown
-  activites: string[]
+  activities: string[]
 }
 
 export interface ITransformer {
