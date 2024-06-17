@@ -1,7 +1,8 @@
 <script setup lang="ts" name="Home">
 import { ref } from 'vue'
 import TheTop from './components/TheTop.vue'
-import { RouterView } from 'vue-router'
+import SearchView from '@/views/search/SearchView.vue'
+import { useToggle } from '@/use/useToggle'
 const active = ref('home')
 const recomments = [
   {
@@ -9,11 +10,14 @@ const recomments = [
     label: '餐饮'
   }
 ]
+
+const [isSearchViewShow, toggleSearchView] = useToggle(false)
 </script>
 
 <template>
   <div class="test">
-    <TheTop :recomments="recomments"></TheTop>
+    <SearchView v-if="isSearchViewShow" @cancel="toggleSearchView"></SearchView>
+    <TheTop :recomments="recomments" @searchClick="toggleSearchView"></TheTop>
   </div>
 </template>
 <style scoped>

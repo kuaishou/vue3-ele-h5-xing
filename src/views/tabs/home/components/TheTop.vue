@@ -6,6 +6,10 @@ interface Iprops {
   recomments: ISearchRecomment[]
 }
 defineProps<Iprops>()
+interface Irmits {
+  (e: 'searchClick'): void
+}
+const emits = defineEmits<Irmits>()
 const saerchValue = ref('热销活动')
 const onSearch = (e?: string | number) => {
   // eslint-disable-next-line no-console
@@ -46,9 +50,10 @@ const onClear = (e?: string | number) => {
       @search="onSearch"
       @cancel="onCancel"
       @clear="onClear"
+      @input-click="emits('searchClick')"
     >
       <template #right-icon>
-        <div>搜索</div>
+        <div @click="emits('searchClick')">搜索</div>
       </template>
     </op-search>
     <div class="search-recommend">
