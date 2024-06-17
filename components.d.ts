@@ -22,6 +22,7 @@ declare module 'vue' {
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     Van0Tabbar: typeof import('vant/es')['0Tabbar']
     VanButton: typeof import('vant/es')['Button']
+    VanCon: typeof import('vant/es')['Con']
     VanIcon: typeof import('vant/es')['Icon']
     Vanloading: typeof import('vant/es')['loading']
     VanLoading: typeof import('vant/es')['Loading']

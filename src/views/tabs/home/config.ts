@@ -1,12 +1,11 @@
 import Todo from '@/components/OpTodo.vue'
-// import ShopList from './components/ShopList.vue'
+import ShopList from './components/ShopList.vue'
 
 export const HOME_TABS = [
   {
     title: '附近推荐',
     value: 'recommend',
-    // component: ShopList
-    component: Todo
+    component: ShopList
   },
   {
     title: '发现好菜',
