@@ -1,15 +1,16 @@
-import { cancelRAF, rAF } from '@/utils/raf'
-import { computed, onUnmounted, ref } from 'vue'
+import { ref, computed } from 'vue'
+import { rAF, cancelRAF } from '@/utils/raf'
 
 type CurrentTime = {
   days: number
   hours: number
   minutes: number
   seconds: number
-  millisecond: number
+  milliseconds: number
   total: number
 }
-type useCountDownOptions = {
+
+type UseCountDownOptions = {
   time: number
   millisecond?: boolean
   onChange?: (current: CurrentTime) => void
@@ -20,79 +21,89 @@ const SECOND = 1000
 const MINUTE = 60 * SECOND
 const HOUR = 60 * MINUTE
 const DAY = 24 * HOUR
+
 const parseTime = (time: number) => {
   const days = Math.floor(time / DAY)
   const hours = Math.floor((time % DAY) / HOUR)
   const minutes = Math.floor((time % HOUR) / MINUTE)
   const seconds = Math.floor((time % MINUTE) / SECOND)
-  const millisecond = Math.floor(time % SECOND)
+  const milliseconds = Math.floor(time % SECOND)
+
   return {
     days,
     hours,
     minutes,
     seconds,
-    millisecond,
+    milliseconds,
     total: time
   }
 }
 
 const isSameSecond = (time1: number, time2: number) => {
-  //是否在同一秒
   return Math.floor(time1 / SECOND) === Math.floor(time2 / SECOND)
 }
-export function useCountDown(options: useCountDownOptions) {
-  const remain = ref(options.time)
-  let refId: number
+
+export function useCountDown(options: UseCountDownOptions) {
+  let rafId: number
   let endTime: number
   let counting: boolean
+  const remain = ref(options.time)
   const current = computed(() => parseTime(remain.value))
-  // return num.toString().padStart(2, '0')
+
   const pause = () => {
     counting = false
-    cancelRAF(refId)
+    cancelRAF(rafId)
   }
-  const getCurrentRemain = () => Math.max(endTime - Date.now(), 0) //剩余时间
+
+  const getCurrentRemain = () => Math.max(endTime - Date.now(), 0)
+
   const setRemain = (value: number) => {
     remain.value = value
     options.onChange?.(current.value)
+
     if (value === 0) {
       pause()
       options.onFinish?.()
     }
   }
+
   const microTick = () => {
-    refId = rAF(() => {
+    rafId = rAF(() => {
       if (counting) {
         const remainRemain = getCurrentRemain()
-        if (isSameSecond(remainRemain, remain.value) || remainRemain === 0) {
-          setRemain(remainRemain)
-        }
+        setRemain(remainRemain)
+
         if (remain.value > 0) {
           microTick()
         }
       }
     })
   }
-  const macrTick = () => {
-    refId = rAF(() => {
+
+  const macroTick = () => {
+    rafId = rAF(() => {
       if (counting) {
         const remainRemain = getCurrentRemain()
-        setRemain(remainRemain)
+        if (!isSameSecond(remainRemain, remain.value) || remainRemain === 0) {
+          setRemain(remainRemain)
+        }
+
         if (remain.value > 0) {
-          macrTick()
+          macroTick()
         }
       }
     })
   }
+
   const tick = () => {
     if (options.millisecond) {
       microTick()
     } else {
-      macrTick()
+      macroTick()
     }
   }
   const start = () => {
-    if (counting) {
+    if (!counting) {
       endTime = Date.now() + remain.value
       counting = true
       tick()
@@ -102,7 +113,6 @@ export function useCountDown(options: useCountDownOptions) {
     pause()
     remain.value = totalTime
   }
-
   return {
     start,
     pause,
