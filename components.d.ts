@@ -7,12 +7,14 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    copy: typeof import('./src/components/HelloWorld copy.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
+    OpLoadingView: typeof import('./src/components/OpLoadingView.vue')['default']
     OpSearch: typeof import('./src/components/OpSearch.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -20,7 +22,10 @@ declare module 'vue' {
     Van0Tabbar: typeof import('vant/es')['0Tabbar']
     VanButton: typeof import('vant/es')['Button']
     VanIcon: typeof import('vant/es')['Icon']
+    Vanloading: typeof import('vant/es')['loading']
+    VanLoading: typeof import('vant/es')['Loading']
     VanSearch: typeof import('vant/es')['Search']
+    VanSkeleton: typeof import('vant/es')['Skeleton']
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']

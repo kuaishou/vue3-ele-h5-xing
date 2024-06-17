@@ -45,7 +45,7 @@ const onSearch = async (v?: string | number) => {
 }
 const onTagClick = async (v: string) => {
   saerchValue.value = v
-  onSearch(v)
+  // onSearch(v)
 }
 
 const debounceVale = useDebounce(saerchValue, 1000)
