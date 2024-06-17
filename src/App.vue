@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { featchTest } from '@/api/test'
+import { fetchTest } from '@/api/test'
 
-featchTest()
+fetchTest()
 </script>
 
 <template>
@@ -15,5 +15,7 @@ featchTest()
   /* 字体抗锯齿，让字体看起来更清晰 */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+  font-size: 14px;
 }
 </style>

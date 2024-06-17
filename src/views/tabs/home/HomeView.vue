@@ -3,7 +3,6 @@ import { ref } from 'vue'
 import TheTop from './components/TheTop.vue'
 import SearchView from '@/views/search/SearchView.vue'
 import { useToggle } from '@/use/useToggle'
-const active = ref('home')
 const recomments = [
   {
     value: 11,
@@ -16,12 +15,19 @@ const [isSearchViewShow, toggleSearchView] = useToggle(false)
 
 <template>
   <div class="test">
-    <SearchView v-if="isSearchViewShow" @cancel="toggleSearchView"></SearchView>
+    <Transition name="fade">
+      <SearchView v-if="isSearchViewShow" @cancel="toggleSearchView"></SearchView>
+    </Transition>
     <TheTop :recomments="recomments" @searchClick="toggleSearchView"></TheTop>
   </div>
 </template>
-<style scoped>
-.test {
-  font-size: 39px;
+<style scoped lang="scss">
+.fade-erter-active,
+.fade-leave-active {
+  transition: opacity 1s ease;
+}
+.fade-erter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
