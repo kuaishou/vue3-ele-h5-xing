@@ -47,16 +47,15 @@ const onTagClick = async (v: string) => {
   saerchValue.value = v
   onSearch(v)
 }
-watch(
-  saerchValue,
-  useDebounce((nv) => {
-    if (!nv) {
-      saerchResult.value = []
-      return
-    }
-    onSearch(nv as string)
-  }, 1000)
-)
+
+const debounceVale = useDebounce(saerchValue, 1000)
+watch(debounceVale, (nv) => {
+  if (!nv) {
+    saerchResult.value = []
+    return
+  }
+  onSearch(nv)
+})
 </script>
 <template>
   <div class="search-view">
