@@ -1,66 +1,53 @@
-<script setup lang="ts" name="TheTop">
+<script setup lang="ts">
 import type { ISearchRecomment } from '@/types'
 import OpSearch from '@/components/OpSearch.vue'
-import { ref } from 'vue'
-interface Iprops {
+interface IProps {
   recomments: ISearchRecomment[]
 }
-defineProps<Iprops>()
-interface Irmits {
+
+defineProps<IProps>()
+
+interface IEmits {
   (e: 'searchClick'): void
 }
-const emits = defineEmits<Irmits>()
-const saerchValue = ref('热销活动')
-const onSearch = (e?: string | number) => {
-  // eslint-disable-next-line no-console
-  console.log('onSearch', e)
-}
-const onCancel = (e?: string | number) => {
-  // eslint-disable-next-line no-console
-  console.log('onCancel', e)
-}
-const onClear = (e?: string | number) => {
-  // eslint-disable-next-line no-console
-  console.log('onClear', e)
-}
+const emits = defineEmits<IEmits>()
 </script>
 
 <template>
   <div class="home-top">
     <div class="top">
-      <img class="location-icon" src="@/assets/imgs/index_page/location.png" alt="" />
+      <img class="location-icon" src="@/assets/imgs/index_page/location.png" />
       <div class="location">幸福小区(北一区东南门)</div>
-      <img class="shopcart-icon" src="@/assets/imgs/index_page/shopcart.png" alt="" />
-      <img class="comments-icon" src="@/assets/imgs/index_page/comments.png" alt="" />
+      <img class="shopcart-icon" src="@/assets/imgs/index_page/shopcart.png" />
+      <img class="comments-icon" src="@/assets/imgs/index_page/comments.png" />
     </div>
-    <!-- <van-search
+    <!-- <VanSearch
       shape="round"
       background="linear-gradient(to right, rgb(53, 200, 250), rgb(31, 175, 243))"
-      placeholder="喜茶 35减2 "
+      placeholder="世界茶饮 35减2"
     >
       <template #right-icon>
         <div>搜索</div>
       </template>
-    </van-search> -->
-    <op-search
-      v-model="saerchValue"
-      shape="round"
-      background="linear-gradient(to right, rgb(53, 200, 250), rgb(31, 175, 243))"
-      placeholder="喜茶 35减2 "
-      @search="onSearch"
-      @cancel="onCancel"
-      @clear="onClear"
-      @input-click="emits('searchClick')"
-    >
-      <template #right-icon>
-        <div @click="emits('searchClick')">搜索</div>
-      </template>
-    </op-search>
+    </VanSearch> -->
+    <van-sticky>
+      <op-search
+        shape="round"
+        background="linear-gradient(to right, rgb(53, 200, 250), rgb(31, 175, 243))"
+        placeholder="世界茶饮 35减2"
+        @inputClick="emits('searchClick')"
+      >
+        <template #right-icon>
+          <div @click="emits('searchClick')">搜索</div>
+        </template>
+      </op-search>
+    </van-sticky>
     <div class="search-recommend">
       <div v-for="v in recomments" :key="v.value" class="tag">{{ v.label }}</div>
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 .home-top {
   background: linear-gradient(to right, rgb(53, 200, 250), rgb(31, 175, 243));

@@ -1,98 +1,102 @@
-<script setup lang="ts" name="SearchView">
-import { fetchSearchData } from '@/api/search'
-import OpSearch from '@/components/OpSearch.vue'
+<script setup lang="ts">
 import type { ISearchResult } from '@/types'
-import { useDebounce } from '@/use/useDebounce'
+import { ref, computed, watch } from 'vue'
+import OpSearch from '@/components/OpSearch.vue'
+import { fetchSearchData } from '@/api/search'
 import { useToggle } from '@/use/useToggle'
-import { computed, ref, watch } from 'vue'
-interface Irmits {
+import { useDebounce } from '@/use/useDebounce'
+
+interface IEmits {
   (e: 'cancel'): void
 }
-const emits = defineEmits<Irmits>()
-const saerchValue = ref('')
-const [isHistoryTagShow, toggleHistoryTag] = useToggle(false)
+const emits = defineEmits<IEmits>()
+
 const HISTORY_TAGS = [
   '比萨',
-  '苹果',
+  '栗子',
+  '切果NOW',
+  '炒饭',
+  '出前一丁',
   '玉米',
   '牛腩',
-  '水果',
-  '香蕉',
-  '小野鸡',
-  '土豆鸡饭',
+  '土豆焗饭',
   '烧烤',
-  '火锅'
+  '水果'
 ]
+const [isHistoryTagShown, toggleHistoryTag] = useToggle(false)
 const historyTags = computed(() =>
-  isHistoryTagShow.value ? HISTORY_TAGS : HISTORY_TAGS.slice(0, 5)
+  isHistoryTagShown.value ? HISTORY_TAGS : HISTORY_TAGS.slice(0, 5)
 )
 
-console.log('ddddd', historyTags.value[0])
-
+const searchValue = ref('')
+const searchResult = ref([] as ISearchResult[])
 const [INIT, DONE, DOING] = [-1, 0, 1]
-const saerchState = ref(INIT) //
-const saerchResult = ref([] as ISearchResult[])
+const searchState = ref(INIT)
 const onSearch = async (v?: string | number) => {
+  console.log('====onSearch', v)
   try {
-    saerchState.value = DOING
-    const { list } = await fetchSearchData(v)
-
-    saerchResult.value = list
+    searchState.value = DOING
+    const { list } = await fetchSearchData(v as string)
+    searchResult.value = list
   } finally {
-    console.log('几个', v)
-    saerchState.value = DONE
+    searchState.value = DONE
   }
 }
-const onTagClick = async (v: string) => {
-  saerchValue.value = v
-  // onSearch(v)
+const onTagClick = (v: string) => {
+  searchValue.value = v
+  onSearch(v)
 }
-
-const debounceVale = useDebounce(saerchValue, 1000)
-watch(debounceVale, (nv) => {
+// watch(
+//   searchValue,
+//   useDebounce((nv) => {
+//     if (!nv) {
+//       searchResult.value = []
+//       return
+//     }
+//     onSearch(nv as string)
+//   }, 1000)
+// )
+const debounceValue = useDebounce(searchValue, 1000)
+watch(debounceValue, (nv) => {
   if (!nv) {
-    saerchResult.value = []
+    searchResult.value = []
     return
   }
-  onSearch(nv)
+  onSearch(nv as string)
 })
 </script>
+
 <template>
   <div class="search-view">
-    <op-search
+    <OpSearch
       show-action
-      v-model="saerchValue"
+      v-model="searchValue"
       shape="round"
-      background="linear-gradient(to right, rgb(53, 200, 250), rgb(31, 175, 243))"
-      placeholder="请输入关键词搜索 "
+      placeholder="请输入搜索关键词"
       @search="onSearch"
       @cancel="emits('cancel')"
-    >
-      <!-- <template #right-icon>
-        <div @click="emits('searchClick')">搜索</div>
-      </template> -->
-    </op-search>
-    <div v-if="!saerchValue" class="search-view__history">
+    ></OpSearch>
+    <div v-if="!searchValue" class="search-view__history">
       <div class="label">历史搜索</div>
       <TransitionGroup name="list">
-        <div class="history-tag" @click="onTagClick(v)" v-for="v in historyTags" :key="v">
+        <div class="history-tag" v-for="v in historyTags" :key="v" @click="onTagClick(v)">
           {{ v }}
         </div>
-        <div key="upDown" class="history-tag" @click="toggleHistoryTag">
-          <van-icon v-if="isHistoryTagShow" name="arrow-up"></van-icon>
-          <van-icon v-else name="arrow-down"></van-icon>
+        <div class="history-tag" key="arrow" @click="toggleHistoryTag">
+          <VanIcon v-if="isHistoryTagShown" name="arrow-up"></VanIcon>
+          <VanIcon v-else name="arrow-down"></VanIcon>
         </div>
       </TransitionGroup>
     </div>
     <div v-else class="search-view__result">
-      <div class="searching" v-if="saerchState === DOING">正在搜索</div>
-      <template v-if="saerchState === DONE">
-        <div class="result-item" v-for="v in saerchResult" :key="v.label">
-          <van-icon name="search"></van-icon>
+      <div class="searching" v-if="searchState === DOING">~正在搜索~</div>
+      <template v-if="searchState === DONE">
+        <div class="result-item" v-for="v in searchResult" :key="v.label">
+          <VanIcon name="search"></VanIcon>
           <div class="name">{{ v.label }}</div>
           <div class="count">约{{ v.resultCount }}个结果</div>
         </div>
-        <div class="no-result" v-if="!saerchResult.length">~暂无推荐</div>
+        <div class="no-result" v-if="!searchResult.length">~暂无推荐~</div>
       </template>
     </div>
   </div>
@@ -102,11 +106,12 @@ watch(debounceVale, (nv) => {
 .search-view {
   position: absolute;
   top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
-  bottom: 0;
   background-color: white;
   z-index: 999;
+
   &__history {
     padding: var(--van-padding-sm);
     .label {
@@ -117,27 +122,28 @@ watch(debounceVale, (nv) => {
       font-size: 12px;
       border-radius: 10px;
       color: var(--van-gray-6);
-      background-color: var(--van-gray-1);
+      background: var(--van-gray-1);
       padding: 4px 8px;
       margin-right: 10px;
       margin-bottom: var(--van-padding-xs);
     }
   }
+
   &__result {
     .result-item {
       display: flex;
       align-items: center;
-      font-size: 12;
+      font-size: 12px;
       padding: 10px;
       border-radius: 1px solid var(--van-gray-1);
-    }
-    .name {
-      flex: 1;
-      padding-left: 6px;
-    }
-    .count {
-      font-size: 12px;
-      color: var(--van-gray-6);
+      .name {
+        flex: 1;
+        padding-left: 6px;
+      }
+      .count {
+        font-size: 12px;
+        color: var(--van-gray-6);
+      }
     }
     .no-result,
     .searching {
@@ -148,13 +154,14 @@ watch(debounceVale, (nv) => {
     }
   }
 }
-.list-erter-active,
+
+.list-enter-active,
 .list-leave-active {
   transition: all 1s ease;
 }
-.list-erter-from,
+.list-enter-from,
 .list-leave-to {
   opacity: 0;
-  transform: translate(30px);
+  transform: translateY(30px);
 }
 </style>
