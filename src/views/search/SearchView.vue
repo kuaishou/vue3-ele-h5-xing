@@ -2,13 +2,14 @@
 import { fetchSearchData } from '@/api/search'
 import OpSearch from '@/components/OpSearch.vue'
 import type { ISearchResult } from '@/types'
+import { useDebounce } from '@/use/useDebounce'
 import { useToggle } from '@/use/useToggle'
 import { computed, ref, watch } from 'vue'
 interface Irmits {
   (e: 'cancel'): void
 }
 const emits = defineEmits<Irmits>()
-const saerchValue = ref('' as string)
+const saerchValue = ref('')
 const [isHistoryTagShow, toggleHistoryTag] = useToggle(false)
 const HISTORY_TAGS = [
   '比萨',
@@ -46,13 +47,16 @@ const onTagClick = async (v: string) => {
   saerchValue.value = v
   onSearch(v)
 }
-watch(saerchValue, (nv) => {
-  if (!nv) {
-    saerchResult.value = []
-    return
-  }
-  onSearch(nv)
-})
+watch(
+  saerchValue,
+  useDebounce((nv) => {
+    if (!nv) {
+      saerchResult.value = []
+      return
+    }
+    onSearch(nv as string)
+  }, 1000)
+)
 </script>
 <template>
   <div class="search-view">
