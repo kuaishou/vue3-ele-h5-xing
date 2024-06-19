@@ -1,22 +1,21 @@
 import { auth } from '@/api/user'
+import { useUserStore } from '@/stores/user'
 import type { IloginInfo } from '@/types'
-import type { Ref } from 'vue'
-import { computed, unref } from 'vue'
+import { computed } from 'vue'
 
 export function useAuth() {
-  // const store = userUserStore().
-  const user = {}
-  // const user = computed(() => store.getUserInfo)
+  const store = useUserStore()
+  const user = computed(() => store.getUserInfo)
   const login = async (data: IloginInfo) => {
     const { token, userInfo } = await auth(data)
-    // store.setInfo({ token, userInfo })
+    store.setInfo({ token, userInfo })
   }
-  const loginout = () => {
-    // store.removeInfo()
+  const logout = () => {
+    store.removeInfo()
   }
   return {
     user,
     login,
-    loginout
+    logout
   }
 }

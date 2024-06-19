@@ -1,12 +1,14 @@
 <script setup lang="ts" name="LoginView">
 import type { IloginInfo } from '@/types'
+import { useAuth } from '@/use/useAuth'
 import { ref } from 'vue'
 const username = ref('')
 const password = ref('')
 const onClickLeft = () => history.back()
-// const { olgin } = useAuth()
+const { login } = useAuth()
 const onSubmit = async (data: IloginInfo) => {
-  // await login()
+  await login(data)
+  onClickLeft()
 }
 // const username = ref('')
 // const username = ref('')
@@ -16,7 +18,7 @@ const onSubmit = async (data: IloginInfo) => {
   <div class="login-page op-fullscreen">
     <VanNavBar title="请登录" left-text="返回" left-arrow @click-left="onClickLeft"></VanNavBar>
     <VanForm class="login-page__form" @submit="onSubmit">
-      <VanCellGroup>
+      <VanCellGroup inset>
         <VanField
           v-model="username"
           name="username"
