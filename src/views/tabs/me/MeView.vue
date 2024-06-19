@@ -3,20 +3,26 @@ import { fetchMePageData } from '@/api/mt'
 import OpLoadingView from '@/components/OpLoadingView.vue'
 import type { ISuperCard } from '@/types'
 import { useAsync } from '@/use/useAsync'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const { data, pending } = useAsync(fetchMePageData, {
   cards: [],
   superCard: {} as ISuperCard
 })
 
-const goLogin = () => {}
+const gotoLogin = () => {
+  router.push({
+    name: 'login'
+  })
+}
 </script>
 
 <template>
   <div class="me-page op-fullscreen">
     <div class="me-page__top">
       <img class="avatar" src="https://b.yzcdn.cn/vant/icon-demo-1126.png" />
-      <div class="name" @click="goLogin">请登录</div>
-      <div class="account op-thin-border" @click="goLogin">账号登录</div>
+      <div class="name" @click="gotoLogin">请登录</div>
+      <div class="account op-thin-border" @click="gotoLogin">账号登录</div>
     </div>
     <OpLoadingView :loading="pending" type="skeleton">
       <div class="me-page__super-card">
