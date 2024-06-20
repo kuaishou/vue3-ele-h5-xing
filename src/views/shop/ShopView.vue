@@ -7,6 +7,7 @@ import ShopHeader from './components/ShopHeader.vue'
 import { PRIMARY_COLOR } from '@/config'
 import GoodsList from './components/GoodsList.vue'
 import OpTodo from '@/components/OpTodo.vue'
+import ShopCart from './components/ShopCart.vue'
 import { ref } from 'vue'
 const TAB_LIST = [
   {
@@ -63,6 +64,7 @@ const onClickLeft = () => history.back()
           <component :is="v.component"></component>
         </VanTab>
       </VanTabs>
+      <ShopCart v-if="active === 1" />
     </OpLoadingView>
   </div>
 </template>
