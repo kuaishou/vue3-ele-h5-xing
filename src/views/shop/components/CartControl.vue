@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { IGood } from '@/types'
-import { computed, ref } from 'vue'
-// import { useCartStore } from '@/stores/cart'
+import { computed } from 'vue'
+import { useCartStore } from '@/stores/cart'
 // import { useEventBus } from '@/use/useEventBus'
 
 //组件传参
@@ -10,18 +10,18 @@ interface IProps {
 }
 const props = defineProps<IProps>()
 
-// const store = useCartStore()
+const store = useCartStore()
 // const eventBus = useEventBus()
-// const cartCount = computed(() => store.cartCountById(props.data.id))
-const cartCount = ref(props.data.cartCount)
+const cartCount = computed(() => store.cartCountById(props.data.id))
+// const cartCount = ref(props.data.cartCount)
 const minus = () => {
-  // store.removeProductFromCart(props.data)
-  cartCount.value--
+  store.removeProductFromCart(props.data)
+  // cartCount.value--
 }
 const add = (event: Event) => {
-  // store.pushProductToCart(props.data)
+  store.pushProductToCart(props.data)
   // eventBus.emit('cart-add', event.target)
-  cartCount.value++
+  // cartCount.value++
 }
 </script>
 

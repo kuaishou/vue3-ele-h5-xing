@@ -2,10 +2,11 @@
 import { fetchGoodsListData } from '@/api/goods'
 import OpLoadingView from '@/components/OpLoadingView.vue'
 import GoodsItem from './GoodsItem.vue'
-import type { IMenu } from '@/types'
+import type { IGood, IMenu } from '@/types'
 import { useAsync } from '@/use/useAsync'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useCartStore } from '@/stores/cart'
 const route = useRoute()
 const { id } = route.params
 const { pending, data } = useAsync(
@@ -16,6 +17,15 @@ const categoryActive = ref(0)
 const listHeight = [] // 存放右边模块内容的高度
 const rightTitHeight = 0 // 右边模块标题的高度
 const scrollY = 0 // 右边滚动时的scrollTop
+
+const { setCartItems } = useCartStore()
+watch(data, (nv) => {
+  const cartGoods = nv
+    .reduce((p: IGood[], v: IMenu) => [...p, ...v.goods], [])
+    .filter((v) => v.cartCount > 0)
+
+  setCartItems(cartGoods)
+})
 
 const changeMenu = (index: number) => {
   // proxy.rightList.scrollToElement(proxy.$refs.good[index], 1000, 0, 0);
