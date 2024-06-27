@@ -1,6 +1,12 @@
 {
   "extends": "./tsconfig.app.json",
-  "include": ["env.d.ts", "src/**/*.vue", "src/**/*.json"],
+  "include": [
+    "env.d.ts",
+    "src/**/*.vue",
+    "src/**/*.ts",
+    "src/**/*.json",
+    "src/utils/scroll/MScroll.ts"
+  ],
   "exclude": [],
   "compilerOptions": {
     "composite": true,

@@ -15,6 +15,7 @@ declare module 'vue' {
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     OpLoadingView: typeof import('./src/components/OpLoadingView.vue')['default']
+    OpScrollView: typeof import('./src/components/OpScrollView.vue')['default']
     OpSearch: typeof import('./src/components/OpSearch.vue')['default']
     OpTodo: typeof import('./src/components/OpTodo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
