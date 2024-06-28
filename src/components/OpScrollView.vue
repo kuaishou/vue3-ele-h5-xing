@@ -9,7 +9,7 @@ interface IPosition {
 
 interface IProps {
   data: unknown[]
-  scrollTo: IPosition
+  scrollTo?: IPosition
 }
 enum EmitEnum {
   beforeScrollStart = 'beforeScrollStart',
@@ -78,7 +78,7 @@ onUnmounted(() => {
   <div class="op-scroll-view">
     <div ref="scrollWrapperRef" class="op-scroll-view__wrapper">
       <div class="op-scroll-view__content">
-        <sclot></sclot>
+        <slot></slot>
       </div>
     </div>
   </div>

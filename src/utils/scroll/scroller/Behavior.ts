@@ -126,10 +126,10 @@ export default class Behavior {
     }
   }
   end(duration: number) {
-    let mementumIfo = {
-      destination: 0,
-      duration: 0,
-      rate: 0
+    let mementumIfo: { destination?: number; duration?: number } = {
+      // destination: 0
+      duration: 0
+      // rate: 0
     }
     const absDist = Math.abs(this.currentPos - this.startPos)
     if (this.options.momentum && duration < this.options.momentumLImitTime && absDist) {

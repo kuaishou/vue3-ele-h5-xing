@@ -55,7 +55,7 @@ export default class ScrollerActions {
 
     //获取X新坐标
     const newX = this.scrollBehaviorX.move(delatX)
-    const newY = this.scrollBehaviorX.move(deltaY)
+    const newY = this.scrollBehaviorY.move(deltaY)
 
     const positionChanged = newX !== prevX || newY !== prevY
 

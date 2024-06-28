@@ -50,7 +50,7 @@ export class Transition {
   translate(point: Ipoint) {
     const { x, y } = point
     this.hooks.emit(this.hooks.eventTypes.beforeTranslate, point)
-    this.style['transform'] = `traslate(${x}px,${y}px)`
+    this.style['transform'] = `translate(${x}px,${y}px)`
     this.hooks.emit(this.hooks.eventTypes.translate, point)
   }
   move(endPoint: Ipoint, time: number, easeingFn: string) {
