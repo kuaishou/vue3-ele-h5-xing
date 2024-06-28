@@ -6,6 +6,7 @@ import type { IGood } from '@/types'
 import { useAsync } from '@/use/useAsync'
 import CartControl from '../shop/components/CartControl.vue'
 import ShopCart from '../shop/components/ShopCart.vue'
+import OpNavBar from '@/components/OpNavBar.vue'
 
 const { params } = useRoute()
 const { data } = useAsync(() => fetchGoodsDetailData(params.id as string), {} as IGood)
@@ -64,6 +65,7 @@ onMounted(() => {
 
 <template>
   <div class="goods-page op-fullscreen">
+    <OpNavBar />
     <div class="goods__img-container" ref="imgContRef">
       <img ref="imgRef" class="img" :src="data.imgUrl" alt="" />
     </div>

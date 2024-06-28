@@ -7,7 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    copy: typeof import('./src/components/HelloWorld copy.vue')['default']
+    copy: typeof import('./src/components/OpTodo copy.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
@@ -15,6 +15,7 @@ declare module 'vue' {
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     OpLoadingView: typeof import('./src/components/OpLoadingView.vue')['default']
+    OpNavBar: typeof import('./src/components/OpNavBar.vue')['default']
     OpScrollView: typeof import('./src/components/OpScrollView.vue')['default']
     OpSearch: typeof import('./src/components/OpSearch.vue')['default']
     OpTodo: typeof import('./src/components/OpTodo.vue')['default']
