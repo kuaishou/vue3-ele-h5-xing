@@ -64,6 +64,7 @@ export default class Behavior {
     if (pos < this.maxScrollPos) {
       return this, this.maxScrollPos
     }
+    return pos
   }
   private momentum(
     current: number,

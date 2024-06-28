@@ -3,9 +3,10 @@ import { createAnimater, type Ipoint } from '../animation'
 import ActionsHanlder from '../base/ActionsHanlder'
 import { ease } from '../shared-utils/ease'
 import { EventEmitter, EventRegister } from '../shared-utils/event'
+import { isSamePoint, isUndef } from '../shared-utils/lang'
 import ScrollerActions from './Actions'
 import Behavior from './Behavior'
-
+const MIN_SCROLL_DISTANCE = 1
 export default class Scroller {
   hooks: EventEmitter
   scrollBehaviorX: Behavior
@@ -65,7 +66,7 @@ export default class Scroller {
     }
     this.animater.transitionTime()
     //当前这个位置是否越界，如果越界就重置
-    if (this.resetPosition(this.options.bounceTime, ease.bounce)) {
+    if (this.resetPosition(this.options.bounceTime as number, ease.bounce)) {
       return
     }
     this.animater.setPending(false)
@@ -106,12 +107,12 @@ export default class Scroller {
         return
       }
       //判断当前位置四否越界，如果越界重置
-      if (this.resetPosition(this.options.bounceTime, ease.bounce)) {
+      if (this.resetPosition(this.options.bounceTime as number, ease.bounce)) {
         return this.transitionEnd
       }
     })
     hooks.on(hooks.eventTypes.scrollEnd, (pos: Ipoint, duration: number) => {
-      if (this.momentum(ops, duration)) {
+      if (this.momentum(pos, duration)) {
         return
       }
       if (this.actions.contentMove) {
@@ -157,5 +158,39 @@ export default class Scroller {
         return true
       }
     }
+  }
+  scrollTo(x: number, y: number, time = 0, easing = ease.bounce) {
+    const currentPos = this.getCurrentPos()
+    const startPoint = {
+      x: currentPos.x,
+      y: currentPos.y
+    }
+    const endPoint = {
+      x,
+      y
+    }
+    if (isSamePoint(startPoint, endPoint)) {
+      return
+    }
+    const deltaX = Math.abs(endPoint.x - startPoint.x)
+    const deltaY = Math.abs(endPoint.y - startPoint.y)
+    if (deltaX < MIN_SCROLL_DISTANCE && deltaY < MIN_SCROLL_DISTANCE) {
+      time = 0
+    }
+    this.animater.move(endPoint, time, easing.style)
+  }
+  getCurrentPos() {
+    return this.actions.getCurrentPos()
+  }
+  updatePostions(pos: Ipoint) {
+    this.scrollBehaviorX.updatePosition(pos.x)
+    this.scrollBehaviorY.updatePosition(pos.y)
+  }
+  destory() {
+    this.hooks.destory()
+    this.actionsHandler.destory()
+    this.animater.destory()
+    this.actions.destory()
+    this.transitionEndRegister.destory()
   }
 }
