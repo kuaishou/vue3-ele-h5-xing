@@ -1,4 +1,4 @@
-import type { IMenuList } from '@/types'
+import type { IGood, IMenuList } from '@/types'
 import axios from './base'
 
 export const fetchGoodsListData = (shopId: string) => {
@@ -6,5 +6,10 @@ export const fetchGoodsListData = (shopId: string) => {
     params: {
       shopId
     }
+  })
+}
+export const fetchGoodsDetailData = (goodsId: string | number) => {
+  return axios.get<IGood, IGood>('goods_detail', {
+    params: { goodsId }
   })
 }

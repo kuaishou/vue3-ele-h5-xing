@@ -5,6 +5,7 @@ import MeView from '../views/tabs/me/MeView.vue'
 import OderView from '../views/tabs/oder/OderView.vue'
 import LoginView from '../views/login/LoginView.vue'
 import ShopView from '../views/shop/ShopView.vue'
+import GoodsView from '../views/goods/GoodsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/shop/:id',
       name: 'shop',
       component: ShopView
+    },
+    {
+      path: '/goods/:id',
+      name: 'goods',
+      component: GoodsView
     }
     // {
     //   path: '/about',
