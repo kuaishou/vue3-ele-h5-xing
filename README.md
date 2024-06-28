@@ -2,6 +2,10 @@
 
 # 十章全部代码，每行都是我手敲的
 
+# 后端server请参考我github里面的这个项目[https://github.com/kuaishou/vue3-ele-server-xing]
+
+https://github.com/kuaishou/vue3-ele-server-xing
+
 # 账号密码
 
 账号：muke
